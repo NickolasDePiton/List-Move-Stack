@@ -2,9 +2,6 @@
 #include <string>
 using namespace std;
 
-/**
-	\class Class of stack
-*/
 class stack {
 private:
 	stack* Next;
