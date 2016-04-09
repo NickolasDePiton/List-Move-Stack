@@ -42,7 +42,7 @@ void out(char str[256])
 }
 
 
-/*int main()
+int main()
 {
 	setlocale(LC_CTYPE, "rus");
 	char path[256];
@@ -61,4 +61,4 @@ void out(char str[256])
 	system("pause");
 	fin.close();
 	return 0;
-}*/
+}
