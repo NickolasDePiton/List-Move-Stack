@@ -10,7 +10,7 @@ public:
 		if (x1 != 0) delete[] x1;
 		if (x2 != 0) delete[] x2;
 		}
-	void add(int x){ /** \func äîáàâëåíèå ýëåìåíòà â ñòåê */
+	void add(int x){
 		n++;
 		if (x1 == 0){
 			x1 = new int[n];
@@ -25,7 +25,7 @@ public:
 		x1 = 0;
 		return;
 	}
-	void del(){ /** \func óäàëåíèå ýëåìåíòà èç ñòåêà */
+	void del(){ 
 		n--;
 		if (x1 == 0){
 			x1 = new int[n];
@@ -38,7 +38,7 @@ public:
 		x1 = 0;
 		return;
 	}
-	void get(){ /** \func ïîëó÷åíèå âåðõíåãî ýëåìåíòà */
+	void get(){ 
 		if (x1 != 0) cout << x1[n - 1]<<endl;
 		if (x2 != 0) cout << x2[n - 1]<<endl;
 	}
