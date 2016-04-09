@@ -2,67 +2,75 @@
 #include <string>
 using namespace std;
 
-class Stack{
-	int *x1, *x2, n;
-public:
-	Stack() : n(0), x1(0), x2(0){}
-		~Stack(){
-		if (x1 != 0) delete[] x1;
-		if (x2 != 0) delete[] x2;
-		}
-	void add(int x){
-		n++;
-		if (x1 == 0){
-			x1 = new int[n];
-			for (int i = 0; i < n - 1; i++) x1[i] = x2[i];
-			x1[n - 1] = x;
-			x2 = 0;
-			return;
-		}
-		x2 = new int[n];
-		for (int i = 0; i < n - 1; i++) x2[i] = x1[i];
-		x2[n - 1] = x;
-		x1 = 0;
-		return;
-	}
-	void del(){ 
-		n--;
-		if (x1 == 0){
-			x1 = new int[n];
-			for (int i = 0; i < n; i++) x1[i] = x2[i];
-			x2 = 0;
-			return;
-		}
-		x2 = new int[n];
-		for (int i = 0; i < n; i++) x2[i] = x1[i];
-		x1 = 0;
-		return;
-	}
-	void get(){ 
-		if (x1 != 0) cout << x1[n - 1]<<endl;
-		if (x2 != 0) cout << x2[n - 1]<<endl;
-	}
-};
+/**
+	\class Class of stack
+*/
+class stack {
+private:
+	stack* Next;
+	string Data;
 
-void main(){
-	int n; Stack A; string s;
-	cin>> n;
-	while (n){
-		getline(cin,s);
-		if (!s.find("add")){
-			n--;
-			s.erase(0, 4);
-			int x = atoi(s.c_str());
-			A.add(x);
+public:
+	stack() : Next(nullptr), Data("") {};
+	void push(string data);
+	void get();
+	string pop();
+	~stack() { if (Next != nullptr) delete Next; }
+} Stack;
+
+/// \fn Adding element
+void stack::push(string data) {
+	if (Next == nullptr)
+		if (Data != "") {
+			Next = new stack();
 		}
-		if (s=="del"){
-			n--;
-			A.del();
+		else {
+			Data = data;
+			return;
 		}
-		if (s == "get"){
-			n--;
-			A.get();
-		}
+		Next->push(Data);
+		Data = data;
+}
+
+/// \fn Getting element
+void stack::get() {
+	cout << Data << endl;
+}
+
+/// \fn Deleting element
+string stack::pop() {
+	string temp = Data;
+	if (Next != nullptr) {
+		Data = Next->pop();
 	}
-	system("pause");
+	else {
+		Data = "";
+	}
+
+	return temp;
+}
+
+/**
+	\fn Main function of application
+*/
+int main() {
+	size_t n;       ///Number of commands
+	string line;    ///Command name
+	cin >> n;
+	for (size_t i = 0; i < n; i++) {
+		cin >> line;
+		if (line == "add") {
+			cin >> line;
+			Stack.push(line);
+		}
+		else if (line == "get")
+			Stack.get();
+		else if (line == "del")
+			Stack.pop();
+		else
+			return 1;
+
+	}
+
+	return 0;
 }
