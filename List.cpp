@@ -1,64 +1,74 @@
-#include <fstream>
 #include <iostream>
-#include <string.h>
+#include <string>
 using namespace std;
-bool _home = false; 
-bool _end = false; 
-int inner = 1; 
-void out(char str[256])
-{
-	char outstr[256];
-	char outbuf[256];
-	int p = 256;
-	if (strstr(str, "/**") != NULL)
-	{
-		_home = true;
-		_end = false;
-	}
-	if ((_home == true) && (_end == false))
-	{
-		if (strstr(str, "\\func") != NULL) 
-		{
 
-			for (int j = 0; j < 256; j++)
-			{
-				outbuf[j] = *(strstr(str, "func") + 5+j);
-			}
-			p = strcspn(outbuf, ")");
-			for (int j = p + 1; j < 256; j++)
-			{
-				outbuf[j] = 0;
-			}
-			cout << endl;
-			cout << inner << ") " << outbuf << endl;
-			inner++;
-			cout << endl;
-		}
+class list {
+private:
+	list* Next;
+	string Data;
+
+public:
+	list() : Next(nullptr), Data("") {};
+	void add(int i, string data);
+	void get(int i);
+	void del(int i);
+	~list() { if (Next != nullptr) delete Next; }
+} List;
+
+/// \fn Adding element
+void list::add(int i, string data) {
+	if (i == 0) {
+		Data = data;
+		return;
 	}
-	if (strstr(str, "*/") != NULL)
-	{
-		_end = true;
+	if (Next == nullptr) {
+		Next = new list();
 	}
+	Next->add(i - 1, data);
 }
 
-
-int main()
-{
-	setlocale(LC_CTYPE, "rus");
-	char path[256];
-	char buffstr[256];
-	fstream fin;
-	cin >> path;
-	fin.open(path, ios::in);
-	if (fin.is_open())
-	{
-		while (!fin.eof())
-		{
-			fin.getline(buffstr, 256);
-			output(buffstr);
-		}
+/// \fn Getting element
+void list::get(int i) {
+	if (i == 0) {
+		cout << Data << endl;
+		return;
 	}
-	system("pause");
-	fin.close();
+	if (Next == nullptr)
+		Next = new list();
+	Next->get(i - 1);
+}
+
+/// \fn Deleting element
+void list::del(int i) {
+	add(i, "");
+}
+
+/**
+	\fn Main function of application
+*/
+int main() {
+	size_t n;
+	int ind; 
+	string line;
+	cin >> n;
+	for (size_t i = 0; i < n; i++) {
+		cin >> line;
+		if (line == "add") {
+			cin >> ind >> line;
+			List.add(ind, line);
+		}
+		else if (line == "get") {
+			cin >> ind;
+			List.get(ind);
+		}
+		else if (line == "del") {
+			cin >> ind;
+			List.del(ind);
+		}
+		else
+			return 1;
+
+	}
+
 	return 0;
 }
